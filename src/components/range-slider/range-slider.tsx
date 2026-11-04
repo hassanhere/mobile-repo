@@ -61,11 +61,11 @@ const RangeSliderComponent = ({
 
         onPanResponderGrant: () => {
           isDraggingMin.current = true;
-          minStart.current = minPan?.__getValue();
+          minStart.current = (minPan as Animated.Value & { __getValue: () => number }).__getValue();
         },
 
         onPanResponderMove: (_, { dx }) => {
-          const maxPos = maxPan?.__getValue();
+          const maxPos = (maxPan as Animated.Value & { __getValue: () => number }).__getValue();
 
           let newPos = minStart.current + dx;
 
@@ -93,11 +93,11 @@ const RangeSliderComponent = ({
 
         onPanResponderGrant: () => {
           isDraggingMax.current = true;
-          maxStart.current = maxPan?.__getValue();
+          maxStart.current = (maxPan as Animated.Value & { __getValue: () => number }).__getValue();
         },
 
         onPanResponderMove: (_, { dx }) => {
-          const minPos = minPan?.__getValue();
+          const minPos = (minPan as Animated.Value & { __getValue: () => number }).__getValue();
           const maxLimit = trackWidth - THUMB_SIZE;
 
           let newPos = maxStart.current + dx;

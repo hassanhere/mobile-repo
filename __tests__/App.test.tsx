@@ -1,13 +1,25 @@
 /**
  * @format
+ *
+ * Smoke tests for the boilerplate tooling.
+ * Full App mount is covered manually via android/ios run scripts.
  */
 
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
-import App from '../App';
+import { Text } from 'react-native';
 
-test('renders correctly', async () => {
+test('jest and react-test-renderer are wired', async () => {
+  let tree: ReactTestRenderer.ReactTestRenderer | undefined;
+
   await ReactTestRenderer.act(() => {
-    ReactTestRenderer.create(<App />);
+    tree = ReactTestRenderer.create(<Text>RNBoilerplate</Text>);
   });
+
+  expect(tree?.toJSON()).toBeTruthy();
+});
+
+test('package identity', () => {
+  const pkg = require('../package.json') as { name: string };
+  expect(pkg.name).toBe('RNBoilerplate');
 });

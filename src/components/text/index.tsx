@@ -35,17 +35,17 @@ const CustomText = (props: CustomTextProps) => {
 
   const variantStyles = TextVariants[variant];
 
-  const styles = [
+  const styles = StyleSheet.flatten([
     variantStyles,
     { color: color ?? theme.generalTextColor },
-    fontFamily && { fontFamily: AppFonts[fontFamily] },
-    size && { fontSize: textSize(size) },
+    fontFamily ? { fontFamily: AppFonts[fontFamily] } : null,
+    size ? { fontSize: textSize(size) } : null,
     style,
-  ];
+  ]);
 
   return (
     <Pressable disabled={!onPress} onPress={onPress} style={containerStyle}>
-      <Text style={StyleSheet.flatten(styles)} {...res}>
+      <Text style={styles} {...res}>
         {children}
       </Text>
     </Pressable>

@@ -7,7 +7,7 @@ import Toast, {
 } from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
-import { Platform } from 'react-native';
+import { Platform, ViewStyle } from 'react-native';
 import { logData } from './helper';
 
 /**
@@ -111,7 +111,7 @@ export const handleResponsePagination = (
     if (page === 1) {
       setData(responseData?.data);
     } else {
-      setData([...data, ...responseData?.data]);
+      setData([...data, ...(responseData.data ?? [])]);
     }
   }
 };
@@ -131,7 +131,7 @@ export const storeAsyncStorage = async (
 ): Promise<void> => {
   try {
     await AsyncStorage.setItem(key, value);
-  } catch (e) {
+  } catch (_e) {
     // saving error
     console.log('error in token storing...');
   }
@@ -155,7 +155,7 @@ export const getAsyncStorage = async (
       // value previously stored
       return value;
     }
-  } catch (e) {
+  } catch (_e) {
     // error reading value
     console.log('token key not found');
     return false;
@@ -173,7 +173,7 @@ export const clearAsyncKey = async (key: string): Promise<boolean> => {
   try {
     await AsyncStorage.removeItem(key);
     return true;
-  } catch (e) {
+  } catch (_e) {
     // error removing value
     console.log('key not found');
     return false;
@@ -205,9 +205,8 @@ const commonStyles = {
     borderLeftWidth: 0,
     width: '92%',
     height: '100%',
-    backgroundColor: undefined,
     top: 40,
-  },
+  } as ViewStyle,
   contentContainer: { paddingHorizontal: 15, paddingVertical: 15 },
   text1White: { fontSize: 17, color: 'white' },
   text2White: { fontSize: 15, color: 'white' },

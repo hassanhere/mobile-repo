@@ -8,14 +8,18 @@ import { createLogger } from 'redux-logger';
 const logger = createLogger({
   collapsed: true, // collapse logs in console
   diff: true, // show diff between prev and next state
-  predicate: (getState, action) => {
+  predicate: (_getState, action) => {
+    const type = (action as { type?: string }).type ?? '';
     // Only log actions that affect user or beam slices
-    return action.type.startsWith('user/') || action.type.startsWith('config/');
+    return type.startsWith('user/') || type.startsWith('config/');
   },
-  stateTransformer: (state: RootState) => ({
-    user: state.user,
-    config: state.config,
-  }),
+  stateTransformer: state => {
+    const typedState = state as RootState;
+    return {
+      user: typedState.user,
+      config: typedState.config,
+    };
+  },
 });
 
 const userPersistConfig = {

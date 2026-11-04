@@ -33,7 +33,9 @@ const refreshBaseQuery = fetchBaseQuery({
   },
 });
 
-let refreshPromise: Promise<any> | null = null;
+type RefreshQueryResult = Awaited<ReturnType<typeof refreshBaseQuery>>;
+
+let refreshPromise: Promise<RefreshQueryResult> | null = null;
 
 export const baseApiQuery: BaseQueryFn<
   string | FetchArgs,

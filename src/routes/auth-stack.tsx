@@ -12,8 +12,14 @@ const AuthStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Auth.Screen name={ScreenNames.LOGIN} component={Login} />
-      <Auth.Screen name={ScreenNames.ABOUT} component={About} />
+      <Auth.Screen
+        name={ScreenNames.LOGIN}
+        component={Login as React.ComponentType}
+      />
+      <Auth.Screen
+        name={ScreenNames.ABOUT}
+        component={About as React.ComponentType}
+      />
     </Auth.Navigator>
   );
 };

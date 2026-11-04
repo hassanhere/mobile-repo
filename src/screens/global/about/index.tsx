@@ -2,7 +2,7 @@ import React from 'react';
 import { AppHeader, Text, ScreenWrapper } from '~components';
 import { AboutScreenProps } from './types';
 
-const About = ({ navigation, route }: AboutScreenProps) => {
+const About = (_props: AboutScreenProps) => {
   return (
     <ScreenWrapper>
       <AppHeader title={'About'} />

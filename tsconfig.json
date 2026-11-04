@@ -7,8 +7,9 @@
     "paths": {
       "~*": ["src/*"]
     },
-    "lib": ["es5", "es6", "dom"],
-    "jsx": "react-native"
+    "lib": ["ES2022", "DOM"],
+    "jsx": "react-native",
+    "skipLibCheck": true
   },
   "exclude": ["**/node_modules", "**/Pods"]
 }

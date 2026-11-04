@@ -110,7 +110,7 @@ const DropDownMenu = ({
     }
   };
 
-  const RenderItem = ({ item }) => (
+  const RenderItem = ({ item }: { item: any }) => (
     <TouchableOpacity
       style={styles.dropDownItem}
       onPress={() => handleItemClick(item)}>

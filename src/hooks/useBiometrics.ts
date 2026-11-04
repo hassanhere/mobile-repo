@@ -1,106 +1,38 @@
-import { useEffect, useState } from "react";
-// import ReactNativeBiometrics, { BiometryTypes } from "react-native-biometrics";
+import { useCallback, useState } from 'react';
 
-const epochTimeSeconds = Math.round(new Date().getTime() / 1000).toString();
-const payload = epochTimeSeconds + "MySecretKey";
-
-// const rnBiometrics = new ReactNativeBiometrics({
-//   allowDeviceCredentials: true,
-// });
-
+/**
+ * Biometrics hook placeholder.
+ * Install `react-native-biometrics` and restore the full implementation when needed.
+ */
 const useBiometrics = () => {
-  const [supported, setSupported] = useState(false);
+  const [supported] = useState(false);
 
-  useEffect(() => {
-    checkAvailability();
+  const notConfigured = useCallback(async () => {
+    throw new Error(
+      'Biometrics is not configured. Install react-native-biometrics and implement useBiometrics.',
+    );
   }, []);
 
-  const checkAvailability = async () => {
-    try {
-      const resultObject = await rnBiometrics.isSensorAvailable();
-      const { available, biometryType, error } = resultObject;
-      if (available && biometryType === BiometryTypes.TouchID) {
-        setSupported(true);
-        console.log("TouchID is supported");
-      } else if (available && biometryType === BiometryTypes.FaceID) {
-        setSupported(true);
-        console.log("FaceID is supported");
-      } else if (available && biometryType === BiometryTypes.Biometrics) {
-        setSupported(true);
-        console.log("Biometrics is supported");
-      } else {
-        setSupported(false);
-        if (error === "BIOMETRIC_ERROR_NONE_ENROLLED") {
-          throw new Error(
-            "Please register your biometric first from device settings"
-          );
-        } else {
-          throw new Error("Biometrics not supported");
-        }
-      }
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
+  const CreateBiometricKey = useCallback(async (): Promise<string | null> => {
+    await notConfigured();
+    return null;
+  }, [notConfigured]);
 
-  const CreateBiometricKey = async (): Promise<string | null> => {
-    try {
-      const keysExistResult = await rnBiometrics.biometricKeysExist();
-      if (keysExistResult.keysExist) {
-        const resultObject = await rnBiometrics.deleteKeys();
-        // const { keysDeleted } = resultObject;
-        // if (!keysDeleted) {
-        //   throw new Error("Biometric keys already exist");
-        // }
-      }
-      const resultObject = await rnBiometrics.createKeys();
-      const { publicKey } = resultObject;
-      return publicKey;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
+  const DeleteBiometricKeys = useCallback(async (): Promise<boolean> => {
+    await notConfigured();
+    return false;
+  }, [notConfigured]);
 
-  const DeleteBiometricKeys = async (): Promise<boolean> => {
-    try {
-      const resultObject = await rnBiometrics.deleteKeys();
-      return true;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
-  const LoginWithBiometric = async (): Promise<
+  const LoginWithBiometric = useCallback(async (): Promise<
     | {
         signature: string | undefined;
         salt: string;
       }
     | undefined
   > => {
-    try {
-      const keysExistResult = await rnBiometrics.biometricKeysExist();
-      if (!keysExistResult.keysExist) {
-        throw new Error(
-          "Please register your biometric first from app settings"
-        );
-      }
-      const resultObject = await rnBiometrics.createSignature({
-        promptMessage: "Sign in",
-        payload: payload,
-      });
-      const { success, signature, error } = resultObject;
-      if (success) {
-        return {
-          signature: signature,
-          salt: payload,
-        };
-      } else if (error) {
-        throw new Error(error);
-      }
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
+    await notConfigured();
+    return undefined;
+  }, [notConfigured]);
 
   return {
     supported,

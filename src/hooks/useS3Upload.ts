@@ -8,10 +8,31 @@ type UploadFile = {
   size?: number;
 };
 
+type SignedUrlResponse = {
+  signedUrl?: string;
+  [key: string]: unknown;
+};
+
+/**
+ * Placeholder for backend signed-URL request.
+ * Replace with your RTK Query mutation (e.g. authApi.getSignedUrl) before using uploads.
+ */
+const requestSignedUrl = async (_payload: {
+  name: string;
+  type: string;
+  size?: number;
+}): Promise<SignedUrlResponse> => {
+  throw new Error(
+    'S3 signed URL API is not configured. Wire your backend endpoint in useS3Upload.',
+  );
+};
+
 const useS3Upload = () => {
   const [progress, setProgress] = useState(0);
 
-  const uploadFile = async (file: UploadFile): Promise<any | undefined> => {
+  const uploadFile = async (
+    file: UploadFile,
+  ): Promise<SignedUrlResponse | undefined> => {
     try {
       setProgress(0);
 
@@ -21,13 +42,12 @@ const useS3Upload = () => {
 
       const contentType = file.type || 'application/octet-stream';
 
-      // 1. Ask backend for the signed URL
       const [response, err] = await tryCatch(
-        apiFromBackend({
+        requestSignedUrl({
           name: file.name,
           type: contentType,
           size: file.size,
-        })?.unwrap(),
+        }),
       );
 
       if (err) {
@@ -41,7 +61,6 @@ const useS3Upload = () => {
         return undefined;
       }
 
-      // 2. Fetch the local file
       const fileResponse = await fetch(file.uri);
 
       if (!fileResponse.ok) {
@@ -50,14 +69,12 @@ const useS3Upload = () => {
 
       const blob = await fileResponse.blob();
 
-      // 3. Upload directly to S3
       const isUploaded = await new Promise<boolean>(resolve => {
         const xhr = new XMLHttpRequest();
 
         xhr.upload.onprogress = event => {
           if (event.lengthComputable) {
             const percentage = Math.round((event.loaded / event.total) * 100);
-
             setProgress(percentage);
           }
         };
@@ -84,9 +101,8 @@ const useS3Upload = () => {
         xhr.send(blob);
       });
 
-      // 4. Return backend response only if S3 upload succeeded
       if (isUploaded) {
-        return response;
+        return response ?? undefined;
       }
 
       return undefined;

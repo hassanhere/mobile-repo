@@ -3,7 +3,7 @@ import { AppHeader, Text, ScreenWrapper } from '~components';
 import { LoginScreenProps } from './types';
 import Config from 'react-native-config';
 
-const Login = ({ navigation, route }: LoginScreenProps) => {
+const Login = (_props: LoginScreenProps) => {
   // Screen params
   // const {key,values, ...rest of params} = route.params
 

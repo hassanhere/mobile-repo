@@ -54,8 +54,14 @@ const AppStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <App.Screen name={ScreenNames.HOME} component={Home} />
-      <App.Screen name={ScreenNames.ABOUT} component={About} />
+      <App.Screen
+        name={ScreenNames.HOME}
+        component={Home as React.ComponentType}
+      />
+      <App.Screen
+        name={ScreenNames.ABOUT}
+        component={About as React.ComponentType}
+      />
     </App.Navigator>
   );
 };

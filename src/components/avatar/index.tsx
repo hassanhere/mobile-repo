@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, ImageStyle, StyleProp, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Camera, Icons } from '~assets';
 import { AvatarProps } from './types';
@@ -54,7 +54,7 @@ const Avatar = ({
       {isError || !imageUrl?.trim() ? (
         <Image
           source={simpleImage}
-          style={[styles.imageStyle, imageStyle]}
+          style={[styles.imageStyle, imageStyle] as StyleProp<ImageStyle>}
           resizeMode={resizeMode}
         />
       ) : (
