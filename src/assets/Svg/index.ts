@@ -1,0 +1,10 @@
+export { default as BackSvg } from './back-svg';
+export { default as Camera } from './camera';
+export { default as DownArrowSvg } from './down-arrow';
+export { default as TickSvg } from './tick';
+export { default as UpArrow } from './up-arrow';
+export { default as WifiSvg } from './wifi-svg';
+export { default as ClosedEyeSvg } from './closed-eye';
+export { default as OpenEyeSvg } from './open-eye';
+export { default as CrossSvg } from './cross';
+export { default as SearchSvg } from './search';
